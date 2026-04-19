@@ -15,8 +15,11 @@ def get_cargo():
     if not os.path.exists(output_file):
         return jsonify({"error": "Data file not found. Please run parser first."}), 500
         
-    with open(output_file, 'r') as f:
-        data = json.load(f)
+    try:
+        with open(output_file, 'r', encoding='utf-8-sig') as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        return jsonify({"error": f"Failed to parse JSON: {str(e)}"}), 500
         
     return jsonify(data)
 
