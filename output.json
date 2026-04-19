@@ -1,12 +1,12 @@
 [
   {
     "id": "101",
-    "destination": "Sector-9",
+    "destination": "International Space Station",
     "weight": 18
   },
   {
     "id": "102",
-    "destination": "Sector-7",
+    "destination": "Titan",
     "weight": 145
   },
   {
@@ -16,7 +16,7 @@
   },
   {
     "id": "110",
-    "destination": "Sector-7",
-    "weight": 22
+    "destination": "Moon",
+    "weight": 15
   }
 ]

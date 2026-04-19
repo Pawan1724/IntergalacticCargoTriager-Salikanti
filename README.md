@@ -15,7 +15,7 @@ python parser.py manifest.txt
 ## Business Rules
 
 The parser strictly applies the following business rules:
-1. **Rule 1 (Sector-7 Handling):** If the destination string contains the EXACT substring "Sector-7", the weight is multiplied by `1.45`.
+1. **Rule 1 (Titan Handling):** If the destination string contains the EXACT substring "Titan", the weight is multiplied by `1.45`.
 2. **Rule 2 (Rounding):** After applying Rule 1 (if applicable), the final weight is mathematically rounded to the nearest whole number.
 3. **Rule 3 (Prime Weight Filtering):** If the rounded weight is a **prime number**, the record is considered prohibited and is completely discarded from the final output.
 
@@ -23,8 +23,8 @@ The parser strictly applies the following business rules:
 
 **Input (`manifest.txt`) excerpt:**
 ```
-ID: 101, DESTINATION: Sector-9, WEIGHT_IN_KG: 18
-ID: 102, DESTINATION: Sector-7, WEIGHT_IN_KG: 100
+ID: 101, DESTINATION: International Space Station, WEIGHT_IN_KG: 18
+ID: 102, DESTINATION: Titan, WEIGHT_IN_KG: 100
 ID: 103, DESTINATION: Earth, WEIGHT_IN_KG: 7
 ```
 
@@ -38,12 +38,12 @@ ID: 103, DESTINATION: Earth, WEIGHT_IN_KG: 7
 [
   {
     "id": "101",
-    "destination": "Sector-9",
+    "destination": "International Space Station",
     "weight": 18
   },
   {
     "id": "102",
-    "destination": "Sector-7",
+    "destination": "Titan",
     "weight": 145
   }
 ]

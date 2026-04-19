@@ -1,7 +1,6 @@
 import argparse
 import json
 import logging
-import math
 import re
 import sys
 
@@ -65,8 +64,8 @@ def apply_rules(record):
     original_id = record['id']
     weight = record['weight']
     
-    # Rule 1: Sector-7 Multiplier
-    if "Sector-7" in record['destination']:
+    # Rule 1: Multiplier for Titan
+    if "Titan" in record['destination']:
         weight *= 1.45
         
     # Rule 2: Round to nearest whole number
