@@ -6,6 +6,10 @@ app = Flask(__name__)
 
 @app.route('/api/cargo', methods=['GET'])
 def get_cargo():
+    # Check for system override header
+    if request.headers.get('X-System-Override') == 'true':
+        return "System override denied.", 418
+
     output_file = 'output.json'
     
     if not os.path.exists(output_file):
