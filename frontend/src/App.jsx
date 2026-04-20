@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import CargoTable from './components/CargoTable';
+import SidePanel from './components/SidePanel';
+import { Header, Footer } from './components/Layout';
 import './App.css';
 
 function App() {
@@ -8,7 +10,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [syncText, setSyncText] = useState('Sync Data');
+  const [syncText, setSyncText] = useState('SYNC DATA');
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -17,7 +20,7 @@ function App() {
       setError(null);
     } catch (err) {
       console.error('Error fetching cargo:', err);
-      setError('Failed to fetch cargo mission data. Ensure backend is running.');
+      setError('CARGO COMMS FAILURE: UNABLE TO REACH STATION.');
     } finally {
       setLoading(false);
     }
@@ -29,46 +32,44 @@ function App() {
 
   const handleSync = () => {
     setIsSyncing(true);
-    setSyncText('Aligning quantum drives...');
-
-    // EXACTly 2.5 seconds delay as per UX Rule
+    setSyncText('ALIGNING...');
+    
+    // EXACTly 2.5 seconds delay
     setTimeout(async () => {
       await fetchData();
       setIsSyncing(false);
-      setSyncText('Sync Data');
+      setSyncText('SYNC DATA');
     }, 2500);
   };
 
-  // Sorting Logic: Non-Earth by weight DESC, Earth items always last
+  // Business Rule 4: Sort data
   const sortedCargo = [...cargoData].sort((a, b) => {
     if (a.destination === 'Earth' && b.destination !== 'Earth') return 1;
     if (a.destination !== 'Earth' && b.destination === 'Earth') return -1;
-    if (a.destination === 'Earth' && b.destination === 'Earth') return 0; // Both Earth, order doesn't matter relative to each other
+    if (a.destination === 'Earth' && b.destination === 'Earth') return 0;
     
-    // Both non-Earth, sort by weight DESC
     return b.weight - a.weight;
   });
 
   return (
-    <div className="dashboard">
-      <h1>Intergalactic Cargo Triager - Salikanti</h1>
+    <>
+      <Header onSync={handleSync} isSyncing={isSyncing} syncText={syncText} />
+      <SidePanel isOpen={isPanelOpen} toggle={() => setIsPanelOpen(!isPanelOpen)} />
       
-      <button 
-        className="sync-button" 
-        onClick={handleSync} 
-        disabled={isSyncing}
-      >
-        {syncText}
-      </button>
+      <main className={`dashboard-container ${isPanelOpen ? 'shifted' : ''}`}>
+        <div className="dashboard-card">
+          {loading ? (
+            <div className="loading">SIGNAL WEAK... SCANNING MANIFESTS...</div>
+          ) : error ? (
+            <div className="error">{error}</div>
+          ) : (
+            <CargoTable data={sortedCargo} />
+          )}
+        </div>
+      </main>
 
-      {loading ? (
-        <div className="loading">Loading manifest data...</div>
-      ) : error ? (
-        <div className="error">{error}</div>
-      ) : (
-        <CargoTable data={sortedCargo} />
-      )}
-    </div>
+      <Footer />
+    </>
   );
 }
 
