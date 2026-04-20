@@ -110,3 +110,36 @@ curl -i -H "X-System-Override: true" http://localhost:5000/api/cargo
 HTTP/1.1 418 I'M A TEAPOT
 System override denied.
 ```
+
+---
+
+## Intergalactic Cargo Dashboard
+
+A React-based frontend dashboard to visualize, sort, and sync cargo data.
+
+### Prerequisites
+- Node.js (v18+)
+- npm
+
+### Installation & Running
+
+1. **Backend**:
+   Ensure you have installed the backend dependencies and generated the `output.json` (see above).
+   ```bash
+   python app.py
+   ```
+   The backend runs on **port 5000**.
+
+2. **Frontend**:
+   Navigate to the `frontend` directory and install dependencies:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+   The frontend runs on **port 5173** (default Vite port).
+
+### Features
+- **Smart Sorting**: Automatically pins all Earth-bound cargo to the bottom of the list. All other cargo is sorted by weight (descending).
+- **Quantum Sync**: Simulates a high-precision data synchronization with a required 2.5-second drive alignment period.
+- **Clean UI**: A minimal, futuristic interface for clear cargo triaging.
